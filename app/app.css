@@ -1,0 +1,27 @@
+.epoca {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.patron-card {
+    max-height: 386px;
+    overflow-y: auto;
+}
+
+.patron-info-line label {
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.patron-info-line p {
+    margin: 0;
+}
+
+.initial-data p {
+    margin: 0;
+}
+
+.initial-data label {
+    font-weight: bold;
+}

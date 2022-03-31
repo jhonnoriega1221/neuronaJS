@@ -5,6 +5,8 @@ angular.module('neuronajs', [])
         $scope.epocasData = [];
 
         let init = function() {
+
+            
             /*
              1  1  1 =  1
              1  1 -1 =  1
@@ -16,7 +18,11 @@ angular.module('neuronajs', [])
             -1 -1 -1 =  1
             */
 
-            let patronesData = []
+            let epocasLabel = ['Epoca 0'];
+            let errorEpocasLabel = ['1000'];
+            let patronesData = [];
+            $scope.sesgoCalibrado = '';
+            $scope.pesosCalibrados = [];
 
             let entrada = [ //Entradas de la neurona (P)
                 [1, 1, 1],
@@ -41,8 +47,6 @@ angular.module('neuronajs', [])
             ];
 
             let neurona = {
-                //Valores calibrados = peso [1.7896220958930784, 1.9336716392097655, -2.45883480475384]
-                //sesgo = 2.809791683002823
                 peso: [],
                 sesgo: null,
                 init: function(numPesos) {
@@ -77,7 +81,7 @@ angular.module('neuronajs', [])
             let calculado = 0; //Inicializamos el valor calculado del patron
             console.log('\n\n\t---------------------------------Epoca', epoca + 1, '------------------------------------')
 
-            while (errorGlobal > errorGlobalPermitido) { //Mientras el error global sea mayor al error permitido
+            while (errorGlobal >= errorGlobalPermitido) { //Mientras el error global sea mayor o igual al error permitido
                 console.log(`\n\n%c------Patrón ${patron+1}-----`, 'color: grey')
                 console.log('Entradas P', patron + 1, ':', entrada[patron]);
                 console.log('Pesos:', neurona.peso)
@@ -139,7 +143,10 @@ angular.module('neuronajs', [])
                         patronData[7].value.push(`${nuevoPeso[i]}`);
                     }
                     nuevoSesgo = neurona.sesgo + errorPatron;
-                    patronData[8].value = `${nuevoSesgo}`
+                    patronData[8].value = `${nuevoSesgo}`;
+
+                    $scope.sesgoCalibrado = nuevoSesgo;
+                    $scope.pesosCalibrados = nuevoPeso;
 
                     //Reemplazamos
                     neurona.peso = nuevoPeso;
@@ -173,11 +180,76 @@ angular.module('neuronajs', [])
                     console.warn($scope.epocasData)
                     patronesData = [];
 
+                    
+
                     console.log(`\n%cError global: ${errorGlobal}`, 'color: yellow');
+                    epocasLabel.push(`Época ${epoca+1}`);
+                    errorEpocasLabel.push(errorGlobal)
+                    
                     epoca++;
                     console.log('\n\n\t\t------------------------------------Epoca', epoca + 1, '-------------------------------------')
                 }
             }
+
+            //Se crea la grafica del error
+            var data = {
+                // A labels array that can contain any sort of values
+                labels: epocasLabel,
+                // Our series array that contains series objects or in this case series data arrays
+                series: [
+                  errorEpocasLabel
+                ]
+              };
+              
+              // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+              // as you saw in the previous example
+              var options = {
+                width: 450,
+                height: 360
+              };
+              
+              // Create a new line chart object where as first parameter we pass in a selector
+              // that is resolving to our chart container element. The Second parameter
+              // is the actual data object. As a third parameter we pass in our custom options.
+              new Chartist.Line('.ct-chart', data, options);
+
+              //----------------------------
+
+              const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: epocasLabel,
+        datasets: [{
+            label: 'Error',
+            data: errorEpocasLabel,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
         }
 
         init();

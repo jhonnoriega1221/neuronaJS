@@ -6,7 +6,7 @@ angular.module('neuronajs', [])
 
         let init = function() {
 
-            
+
             /*
              1  1  1 =  1
              1  1 -1 =  1
@@ -18,9 +18,9 @@ angular.module('neuronajs', [])
             -1 -1 -1 =  1
             */
 
-            let epocasLabel = ['Epoca 0'];
-            let errorEpocasLabel = ['1000'];
-            let patronesData = [];
+            let epocasLabel = ['Epoca 0']; //Texto para la gráfica
+            let errorEpocasLabel = ['1000']; //Texto para la gráfica
+            let patronesData = []; //Texto para el frontend
             $scope.sesgoCalibrado = '';
             $scope.pesosCalibrados = [];
 
@@ -180,12 +180,12 @@ angular.module('neuronajs', [])
                     console.warn($scope.epocasData)
                     patronesData = [];
 
-                    
+
 
                     console.log(`\n%cError global: ${errorGlobal}`, 'color: yellow');
                     epocasLabel.push(`Época ${epoca+1}`);
                     errorEpocasLabel.push(errorGlobal)
-                    
+
                     epoca++;
                     console.log('\n\n\t\t------------------------------------Epoca', epoca + 1, '-------------------------------------')
                 }
@@ -197,59 +197,59 @@ angular.module('neuronajs', [])
                 labels: epocasLabel,
                 // Our series array that contains series objects or in this case series data arrays
                 series: [
-                  errorEpocasLabel
+                    errorEpocasLabel
                 ]
-              };
-              
-              // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
-              // as you saw in the previous example
-              var options = {
+            };
+
+            // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+            // as you saw in the previous example
+            var options = {
                 width: 450,
                 height: 360
-              };
-              
-              // Create a new line chart object where as first parameter we pass in a selector
-              // that is resolving to our chart container element. The Second parameter
-              // is the actual data object. As a third parameter we pass in our custom options.
-              new Chartist.Line('.ct-chart', data, options);
+            };
 
-              //----------------------------
+            // Create a new line chart object where as first parameter we pass in a selector
+            // that is resolving to our chart container element. The Second parameter
+            // is the actual data object. As a third parameter we pass in our custom options.
+            new Chartist.Line('.ct-chart', data, options);
 
-              const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: epocasLabel,
-        datasets: [{
-            label: 'Error',
-            data: errorEpocasLabel,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+            //----------------------------
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: epocasLabel,
+                    datasets: [{
+                        label: 'Error',
+                        data: errorEpocasLabel,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         }
 
         init();
